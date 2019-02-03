@@ -1,18 +1,21 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
+var pool = require('../config/dbConfig');
+
 
 /* GET home page. */
 router.get('/list', function(req, res, next) {
-	var sql = "SELECT * FROM todo";
-	conn.query(sql, (err, row) => {
-		if(err){
-			throw err;
-		}
-		res.send(200, {
-			result: 1,
-			data: row
-		});
+	pool.getConnection((err, conn) => {
+		var sql = "SELECT * FROM todo";
+		conn.query(sql, (err, row) => {
+			if(err){
+				throw err;
+			}
+			res.send(200, {
+				result: 1,
+				data: row
+			});
+		})
 	})
 });
 
