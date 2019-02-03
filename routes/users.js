@@ -4,17 +4,19 @@ var pool = require('../config/dbConfig');
 
 /* GET users listing. */
 router.get('/list', function(req, res, next) {
-	var sql = "SELECT * FROM user";
-	conn.query(sql, (err, row) => {
-		if(err){
-			res.send(300, {
-				result: 0,
-				msg: err
+	pool.getConnection((err, conn) => {
+		var sql = "SELECT * FROM user";
+		conn.query(sql, (err, row) => {
+			if(err){
+				res.send(300, {
+					result: 0,
+					msg: err
+				})
+			}
+			res.send(200, {
+				result: 1,
+				data: row
 			})
-		}
-		res.send(200, {
-			result: 1,
-			data: row
 		})
 	})
 });
